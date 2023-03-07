@@ -259,15 +259,18 @@ app.on('ready', () => {
             // open the database
             await database.open();
             // check for existing data
-            let existingData = await database.get(finalKey);
-            console.log(existingData);
-            if (existingData) {
-                // remove control char
-                existingData = existingData.substring(1);
-                // and JSON parse
-                existingData = JSON.parse(existingData);
-                //console.log(existingData);
-            } else {
+            let existingData = [];
+            try {
+                await database.get(finalKey);
+                console.log(existingData);
+                if (existingData) {
+                    // remove control char
+                    existingData = existingData.substring(1);
+                    // and JSON parse
+                    existingData = JSON.parse(existingData);
+                    //console.log(existingData);
+                }
+            } catch (e) {
                 existingData = []
             }
             existingData.push({
