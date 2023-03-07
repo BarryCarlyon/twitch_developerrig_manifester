@@ -173,6 +173,22 @@ app.on('ready', () => {
         }
 
         let theExtension = data.data[0];
+
+        // lazy mode fix keys in views
+        for (let view in theExtension.views) {
+            for (let key in theExtension.views[view]) {
+                var parts = key.split(/_/g);
+                for(var i=1; i<parts.length; i++) {
+                    parts[i] = parts[i].substr(0,1).toUpperCase() + parts[i].substr(1,parts[i].length-1) 
+                }
+                let newKey = parts.join('');
+                console.log('for', view, 'copy', key, 'to', newKey);
+                theExtension.views[view][newKey] = theExtension.views[view][key];
+            }
+        }
+        console.log(theExtension.views);
+        //process.exit();
+
         // build the manifest file
         let manifest = {
             "allowHttpBackend": false,
@@ -217,6 +233,7 @@ app.on('ready', () => {
                     "mobile":                   (theExtension.views.mobile ? theExtension.views.mobile.viewer_url : ''),
                     "panel":                    (theExtension.views.panel ? theExtension.views.panel.viewer_url : ''),
                     "component":                (theExtension.views.component ? theExtension.views.component.viewer_url : ''),
+                    "videoOverlay":             (theExtension.views.video_overlay ? theExtension.views.video_overlay.viewer_url : ''),
                     "config":                   (theExtension.views.config ? theExtension.views.config.viewer_url : ''),
                 },
                 "views":                        theExtension.views,
@@ -254,14 +271,15 @@ app.on('ready', () => {
                 'Local Storage',
                 'leveldb'
             );
-            console.log(databasePath);
+            console.log('DBPath', databasePath);
             const database = new ClassicLevel(databasePath);
             // open the database
             await database.open();
             // check for existing data
             let existingData = [];
             try {
-                await database.get(finalKey);
+                console.log('Key:', finalKey);
+                existingData = await database.get(finalKey);
                 console.log(existingData);
                 if (existingData) {
                     // remove control char
@@ -271,8 +289,10 @@ app.on('ready', () => {
                     //console.log(existingData);
                 }
             } catch (e) {
+                console.log(e);
                 existingData = []
             }
+
             existingData.push({
                 filePath: manifestFile,
                 name: extension_name,
