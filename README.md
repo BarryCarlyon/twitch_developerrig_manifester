@@ -8,6 +8,32 @@ This Program lets you add a Project to the Deprecated [Twitch Developer Rig](htt
 
 It comes with no warranties so if you break something it's your fault *If you do so it's at your own risk*!
 
+# Usage Instructions
+
+## New Users
+
+1. Install The Rig
+2. Install this program
+3. Open the Rig
+4. Login to Twitch in the Rig
+5. Close The Rig
+6. Open this program
+7. Fill in the fields
+8. Click "Attempt Create"
+9. Open the Rig
+
+You should now have your project.
+
+## Existing Users
+
+1. Close the Rig
+2. Open this program
+3. Fill in the fields
+4. Click "Attempt Create"
+5. Open the Rig
+
+You should now have your new project along side your Existing projects.
+
 ## Installation and Updates
 
 This is an Electron App, so it maybe installed from the GitHub [releases tab](https://github.com/BarryCarlyon/twitch_developerrig_manifester/releases).
