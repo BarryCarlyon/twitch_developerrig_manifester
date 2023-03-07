@@ -1,0 +1,127 @@
+{
+  "scripts": {
+    "postinstall": "electron-builder install-app-deps",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win --x64",
+    "mdist": "electron-builder --mac",
+    "start": "set NODE_ENV=development && electron .",
+    "test": "set NODE_ENV=development && set DEBUG=* && electron .",
+    "publish": "electron-builder -p always"
+  },
+  "build": {
+    "appId": "com.barrycarlyon.twitch-developerrig-manifester",
+    "productName": "BarryCarlyon Extension Tools",
+    "copyright": "Copyright © 2023 ${author}",
+    "icon": "app/assets/eLgNUAVE.ico",
+    "win": {
+      "target": "nsis",
+      "publish": [
+        {
+          "provider": "github",
+          "owner": "barrycarlyon",
+          "repo": "twitch_developerrig_manifester"
+        }
+      ]
+    },
+    "nsis": {
+      "installerIcon": "app/assets/eLgNUAVE.ico",
+      "uninstallerIcon": "app/assets/eLgNUAVE.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "menuCategory": true
+    },
+    "mac": {
+      "appId": "com.barrycarlyon.twitch-developerrig-manifester",
+      "target": [
+        {
+          "target": "mas",
+          "arch": "universal"
+        },
+        {
+          "target": "dmg",
+          "arch": "universal"
+        },
+        {
+          "target": "zip",
+          "arch": "universal"
+        }
+      ],
+      "category": "public.app-category.developer-tools",
+      "icon": "assets/eLgNUAVE.icns",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "type": "distribution",
+      "extendInfo": {
+        "CFBundleVersion": "1.4.1001",
+        "NSBluetoothAlwaysUsageDescription": false,
+        "NSBluetoothPeripheralUsageDescription": false,
+        "NSCameraUsageDescription": false,
+        "NSMicrophoneUsageDescription": false,
+        "CFBundleSupportedPlatforms": [
+          "MacOSX"
+        ]
+      },
+      "mergeASARs": true
+    },
+    "afterSign": "electron-builder-notarize",
+    "dmg": {
+      "backgroundColor": "#382f2b",
+      "internetEnabled": true,
+      "sign": true
+    },
+    "mas": {
+      "hardenedRuntime": false,
+      "entitlements": "build/entitlements.plist",
+      "entitlementsInherit": "build/entitlements.inherit.plist",
+      "entitlementsLoginHelper": "build/entitlements.loginhelper.plist",
+      "provisioningProfile": "build/RobynExtToolStore.provisionprofile"
+    },
+    "files": [
+      "!.github",
+      "!dist",
+      "!dist_test",
+      "!docs",
+      "!screenshots",
+      "!assets"
+    ]
+  },
+  "dependencies": {
+    "classic-level": "^1.2.0",
+    "electron-context-menu": "^3.6.1",
+    "electron-fetch": "^1.9.1",
+    "electron-store": "^8.1.0",
+    "electron-updater": "^5.3.0",
+    "jsonwebtoken": "^9.0.0"
+  },
+  "name": "barrycarlyontwitchdeveloperrigmanifester",
+  "productName": "BarryCarlyonDeveloperRigManifester",
+  "description": "BarryCarlyon Twitch Developer Rig Manifester. The Dev rig is dead but this will plug the hole",
+  "author": "Barry Carlyon",
+  "version": "1.0.0",
+  "main": "app/main.js",
+  "keywords": [
+    "desktop-app",
+    "twitch",
+    "tools",
+    "extensions",
+    "twitch-extensions"
+  ],
+  "license": "WTFPL",
+  "homepage": "https://github.com/BarryCarlyon/twitch_developerrig_manifester#readme",
+  "bugs": {
+    "url": "https://github.com/BarryCarlyon/twitch_developerrig_manifester/issues"
+  },
+  "engines": {
+    "npm": ">=6",
+    "node": ">=12"
+  },
+  "optionalDependencies": {
+    "@electron/osx-sign": "^1.0.4",
+    "dmg-license": "^1.0.11",
+    "electron-builder-notarize": "^1.5.1"
+  },
+  "devDependencies": {
+    "electron": "^23.1.2",
+    "electron-builder": "^23.6.0"
+  }
+}

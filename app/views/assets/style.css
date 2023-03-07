@@ -1,0 +1,149 @@
+html,
+body {
+    overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+
+body {
+    padding-top: 64px;
+    overflow-y: scroll;
+    background: #141414;
+}
+.monospace {
+    font-family: monospace;
+}
+a.website:before {
+    content: '';
+    position: relative;
+    top: 0;
+    left: -2px;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: url(../assets/pop.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#alert {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+
+    z-index: 9001;
+}
+
+#config_form .input-group .input-group-text:first-child {
+    text-align: right;
+    min-width: 300px;
+    display: inline-block;
+}
+.accordion-item .input-group .input-group-text:first-child {
+    text-align: right;
+    min-width: 200px;
+    display: inline-block;
+}
+
+#updater {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 1031;
+}
+#updater.updating {
+    position: fixed;
+}
+
+.loading,
+.accordion-item {
+    position: relative;
+}
+.loading:after,
+.accordion-item.disabled:after {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    cursor: not-allowed;
+    content: '';
+    background: rgba(0,0,0,0.3);
+    z-index: 5;
+}
+
+#extension_details_view .card {
+    font-size: 12px;
+}
+#layout_title {
+    width: 500px;
+    display: inline-block;
+}
+#layout_icon {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+}
+#layout_additional p { margin: 0px; }
+
+th .form-check {
+    margin-bottom: 0px;
+    min-height: 0rem;
+}
+
+.datetimepick {
+    position: relative;
+}
+.datetimepick:after {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    content: '';
+}
+
+#add_new_extension_modal .modal-dialog {
+    max-width: 90%;
+}
+
+.bg-dark {
+    background: #333333!important;
+}
+.bg-darker {
+    background: #292929!important;
+}
+
+pre.json {
+    border-radius: 5px;
+    padding: 5px;
+}
+.json > .string {
+    color: #feee85;
+}
+.json > .number {
+    color: #beaaff;
+}
+.json > .boolean {
+    color: #beaaff;
+}
+.json > .null {
+    color: #ffca5f;
+}
+.json > .key {
+    color: #fab4ff;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(190, 170, 255, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(190, 170, 255, 0.3);
+}
