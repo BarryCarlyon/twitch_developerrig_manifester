@@ -10,7 +10,7 @@
   },
   "build": {
     "appId": "com.barrycarlyon.twitch-developerrig-manifester",
-    "productName": "BarryCarlyon Extension Tools",
+    "productName": "BarryCarlyon Developer Rig Manifester",
     "copyright": "Copyright © 2023 ${author}",
     "icon": "app/assets/eLgNUAVE.ico",
     "win": {
