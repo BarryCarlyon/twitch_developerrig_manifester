@@ -27,10 +27,27 @@ contextBridge.exposeInMainWorld('electron', {
         ipcRenderer.on('gotDirectory', (event, ...args) => fn(...args));
     },
 
+    rigLogin: (fn) => {
+        ipcRenderer.on('rigLogin', (event, ...args) => fn(...args));
+    },
+
     attemptCreate: (record) => {
         ipcRenderer.send('attemptCreate', record);
     },
     resultCreate: (fn) => {
         ipcRenderer.on('resultCreate', (event, ...args) => fn(...args));
-    }
+    },
+
+    loadProjects: () => {
+        ipcRenderer.send('loadProjects');
+    },
+    loadedProjects: (fn) => {
+        ipcRenderer.on('loadedProjects', (event, ...args) => fn(...args));
+    },
+    refreshProject: (targetFilePath) => {
+        ipcRenderer.send('refreshProject', targetFilePath);
+    },
+    resultRefresh: (fn) => {
+        ipcRenderer.on('resultRefresh', (event, ...args) => fn(...args));
+    },
 });

@@ -5,66 +5,99 @@
     <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
-    <nav class="navbar navbar-expand fixed-top navbar-dark bg-dark" aria-label="Main navigation">
-        <div class="container-fluid fs-5">
-            <div class="navbar-collapse" id="navbarsExampleDefault">
-                <ul class="nav navbar-nav me-auto mb-2 mb-lg-0" >
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="config-tab" data-bs-toggle="tab" data-bs-target="#config" href="#" role="tab" aria-controls="config" aria-selected="true">Developer Rig Manifester</a>
-                    </li>
-                </ul>
+    <main class="container-fluid">
+        <div id="navigation" class="btn-group">
+            <div class="navigation_item btn btn-outline-primary" targets="import">Import A Project</div>
+            <div class="navigation_item btn btn-outline-secondary" targets="refresh">Refresh Manifest</div>
+        </div>
+        <div id="tab_items">
+            <div id="import" class="tab_item">
+                <p>Import an already existing Twitch Extension to the Rig.</p>
+
+                <p class="alert alert-danger">Make sure to close the Developer Rig before using Import a Project!</p>
+                <form action="" method="post" id="manifestdetails">
+                    <fieldset>
+                        <legend>Project Settings</legend>
+                        <div class="input-group p-1">
+                            <label for="extension_name" class="input-group-text">Friendly/Project Name</label>
+                            <input type="text" name="extension_name" id="extension_name" class="form-control" />
+                        </div>
+                        <div class="form-text">We'll call the manfiest/project file this.</div>
+                        <div class="input-group p-1">
+                            <label for="save_path" class="input-group-text">Project Location</label>
+                            <input type="text" name="save_path" id="save_path" class="form-control" readonly />
+                            <input type="button" id="save_path_select" value="Select DIR" class="btn btn-outline-secondary" />
+                        </div>
+                        <div class="form-text">We'll write the manifest/project file here.</div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Extension Settings</legend>
+                        <div class="input-group p-1">
+                            <label for="extension_id" class="input-group-text">Extension Client ID</label>
+                            <input type="text" name="extension_id" id="extension_id" class="form-control"/>
+                        </div>
+                        <div class="input-group p-1">
+                            <label for="extension_secret" class="input-group-text">Extension Secret</label>
+                            <input type="password" name="extension_secret" id="extension_secret" class="form-control" />
+                        </div>
+                        <div class="form-text">NOT the API Secret The Extension Client Configuration Secret</div>
+            
+                        <div class="input-group p-1">
+                            <label for="owner_id" class="input-group-text">Owner User ID</label>
+                            <input type="number" name="owner_id" id="owner_id" class="form-control" step="1" min="0" />
+                        </div>
+                        <div class="form-text">Your userID (15185913) not username (barrycarlyon)</div>
+            
+                        <div class="input-group p-1">
+                            <label for="extension_version" class="input-group-text">Extension Version</label>
+                            <input type="text" name="extension_version" id="extension_version" class="form-control" />
+                        </div>
+                        <div class="form-text">if blank uses released version if any</div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="d-grid">
+                            <input type="submit" class="btn btn-outline-primary" value="Attempt Create" />
+                        </div>
+                        <div class="form-text" id="result"></div>
+                    </fieldset>
+                </form>
+            </div>
+            <div id="refresh"  class="tab_item d-none">
+                <p>Refresh the Extension manifest for a project already imported to the rig.</p>
+
+                <p class="alert alert-danger">To use this tool you'll need to close the rig first.</p>
+
+                <form action="" method="post" id="manifestrefresh">
+                    <fieldset>
+                        <div class="input-group p-1">
+                            <label for="refresh_project_id" class="input-group-text">Which Project?</label>
+                            <select name="refresh_project_id" id="refresh_project_id" class="form-select">
+                            </select>
+                            <input type="button" id="refresh_project_load" value="Load Projects" class="btn btn-outline-secondary" />
+                        </div>
+
+                        <div class="input-group p-1">
+                            <label for="refresh_owner_id" class="input-group-text">Owner User ID</label>
+                            <input type="number" name="refresh_owner_id" id="refresh_owner_id" class="form-control" step="1" min="0" />
+                        </div>
+                        <div class="form-text">Your userID (15185913) not username (barrycarlyon)</div>
+            
+                        <div class="input-group p-1">
+                            <label for="refresh_extension_version" class="input-group-text">Extension Version</label>
+                            <input type="text" name="refresh_extension_version" id="refresh_extension_version" class="form-control" />
+                        </div>
+                        <div class="form-text">if blank uses existing version</div>
+
+                    </fieldset>
+                    <fieldset>
+                        <div class="d-grid">
+                            <input type="submit" class="btn btn-outline-primary" value="Attempt Refresh" />
+                        </div>
+                        <div class="form-text" id="refresh_result"></div>
+                    </fieldset>
+                </form>
             </div>
         </div>
-    </nav>
-    <main class="container-fluid">
-        <h2>Create A Project</h2>
-        <p class="alert alert-danger">Please makes sure the Developer Rig is CLOSED before using this tool!</p>
-        <form action="" method="post" id="manifestdetails">
-            <fieldset>
-                <legend>Project Settings</legend>
-                <div class="input-group p-1">
-                    <label for="extension_name" class="input-group-text">Friendly/Project Name</label>
-                    <input type="text" name="extension_name" id="extension_name" class="form-control" />
-                </div>
-                <div class="form-text">We'll call the manfiest/project file this.</div>
-                <div class="input-group p-1">
-                    <label for="save_path" class="input-group-text">Project Location</label>
-                    <input type="text" name="save_path" id="save_path" class="form-control" readonly />
-                    <input type="button" id="save_path_select" value="Select DIR" class="btn btn-outline-secondary" />
-                </div>
-                <div class="form-text">We'll write the manifest/project file here.</div>
-            </fieldset>
-            <fieldset>
-                <legend>Extension Settings</legend>
-                <div class="input-group p-1">
-                    <label for="extension_id" class="input-group-text">Extension Client ID</label>
-                    <input type="text" name="extension_id" id="extension_id" class="form-control"/>
-                </div>
-                <div class="input-group p-1">
-                    <label for="extension_secret" class="input-group-text">Extension Secret</label>
-                    <input type="password" name="extension_secret" id="extension_secret" class="form-control" />
-                </div>
-                <div class="form-text">NOT the API Secret The Extension Client Configuration Secret</div>
-    
-                <div class="input-group p-1">
-                    <label for="owner_id" class="input-group-text">Owner User ID</label>
-                    <input type="number" name="owner_id" id="owner_id" class="form-control" step="1" min="0" />
-                </div>
-                <div class="form-text">Your userID (15185913) not username (barrycarlyon)</div>
-    
-                <div class="input-group p-1">
-                    <label for="extension_version" class="input-group-text">Extension Version</label>
-                    <input type="text" name="extension_version" id="extension_version" class="form-control" />
-                </div>
-                <div class="form-text">if blank uses released version if any</div>
-            </fieldset>
-            <fieldset>
-                <div class="d-grid">
-                    <input type="submit" class="btn btn-outline-primary" value="Attempt Create" />
-                </div>
-                <div class="form-text" id="result"></div>
-            </fieldset>
-        </form>
     </main>
 
     <div id="updater" class="btn btn-outline-primary">Check for Update</div>

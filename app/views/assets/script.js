@@ -36,7 +36,6 @@ window.electron.onUpdater((data) => {
             break;
     }
 });
-window.electron.ready();
 document.getElementById('updater').addEventListener('click', window.electron.updateCheck);
 
 // so lazy
@@ -60,6 +59,25 @@ document.addEventListener('click', (e) => {
         }
         e.preventDefault();
         window.electron.openWeb(e.target.getAttribute('href'));
+    } else if (e.target.classList.contains('navigation_item')) {
+        let tabTarget = e.target.getAttribute('targets');
+        let itm = document.querySelector('.navigation_item.btn-outline-primary');
+        if (itm) {
+            itm.classList.remove('btn-outline-primary');
+            itm.classList.add('btn-outline-secondary');
+        }
+        e.target.classList.add('btn-outline-primary');
+        e.target.classList.remove('btn-outline-secondary');
+
+        let tabItems = document.querySelectorAll('.tab_item');
+        for (var x=0;x<tabItems.length;x++) {
+            tabItems[x].classList.add('d-none');
+        }
+
+        let targetItem = document.getElementById(tabTarget);
+        if (targetItem) {
+            targetItem.classList.remove('d-none');
+        }
     }
 });
 
@@ -70,6 +88,9 @@ function resetErrors() {
     }
 }
 
+/*
+Create Stuff
+*/
 save_path_select.addEventListener('click', (e) => {
     e.preventDefault();
     window.electron.openDirectory();
@@ -124,3 +145,58 @@ window.electron.resultCreate((data) => {
     console.log('resultCreate', data);
     result.textContent = data;
 });
+
+/*
+Refresh Stuff
+*/
+refresh_project_load.addEventListener('click', (e) => {
+    window.electron.loadProjects();
+});
+window.electron.resultRefresh((data) => {
+    console.log('resultRefresh', data);
+    refresh_result.textContent = data;
+});
+window.electron.loadedProjects((projects) => {
+    refresh_project_id.textContent = '';
+
+    projects.forEach(project => {
+        let opt = document.createElement('option');
+        refresh_project_id.append(opt);
+
+        opt.value = project.filePath;
+        opt.textContent = project.name;
+    });
+});
+manifestrefresh.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    let targetFilePath = refresh_project_id.value;
+    if (!targetFilePath || targetFilePath == '') {
+        refresh_result.textContent = 'You probably need to Load Projects and pick a project first...';
+        return;
+    }
+
+    window.electron.refreshProject({
+        targetFilePath,
+        ownerID: refresh_owner_id.value,
+        version: refresh_extension_version.value
+    });
+});
+
+
+
+
+
+
+
+
+window.electron.rigLogin((data) => {
+    try {
+        let { id } = data;
+        owner_id.value = id;
+        refresh_owner_id.value = id;
+    } catch (e) {
+    }
+});
+
+window.electron.ready();
