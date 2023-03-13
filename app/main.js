@@ -497,7 +497,11 @@ app.on('ready', () => {
             win.webContents.send('resultRefresh', `Manifest Refreshed! (Re)Open the Developer Rig!`);
         } catch (e) {
             console.log(e);
-            win.webContents.send('resultRefresh', `Something went very wrongTM: ${e.message}`);
+            if (e.message) {
+                win.webContents.send('resultRefresh', `Something went very wrongTM: ${e.message}`);
+            } else {
+                win.webContents.send('resultRefresh', `Something went very wrongTM: ${e}`);
+            }
             return;
         }
     });
