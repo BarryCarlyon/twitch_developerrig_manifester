@@ -34,6 +34,10 @@ You should now have your project.
 
 You should now have your new project along side your Existing projects.
 
+### Common Issues
+
+- `Database not open` - you left the Twitch Developer Rig open, and the Manifester is locked out. Close the Twitch Developer Rig, optionally restart the manifester.
+
 ## Installation and Updates
 
 This is an Electron App, so it maybe installed from the GitHub [releases tab](https://github.com/BarryCarlyon/twitch_developerrig_manifester/releases).
