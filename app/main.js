@@ -262,7 +262,7 @@ app.on('ready', () => {
             "iconUrls":                     theExtension.icon_urls,
             "id":                           theExtension.id,
             "installationCount":            -42,
-            "liveConfigUrl":                "",
+            "liveConfigUrl":                theExtension.views.live_config.viewer_url,
             "name":                         theExtension.name,
             "panelHeight":                  (theExtension.views.panel ? theExtension.views.panel.height : 0),
             "privacyPolicyUrl":             theExtension.privacy_policy_url,
@@ -287,6 +287,14 @@ app.on('ready', () => {
                 "liveConfig":               (theExtension.views.live_config ? theExtension.views.live_config.viewer_url : ''),
             },
             "views":                        theExtension.views,
+            "views": {
+                "mobile":                   (theExtension.views.mobile ? theExtension.views.mobile : null),
+                "panel":                    (theExtension.views.panel ? theExtension.views.panel : null),
+                "videoOverlay":             (theExtension.views.video_overlay ? theExtension.views.video_overlay : null),
+                "component":                (theExtension.views.component ? theExtension.views.component : null),
+                "config":                   (theExtension.views.config ? theExtension.views.config : null),
+                "liveConfig":               (theExtension.views.live_config ? theExtension.views.live_config : null),
+            },
             "whitelistedConfigUrls":        theExtension.allowlisted_config_urls,
             "whitelistedPanelUrls":         theExtension.allowlisted_panel_urls
         }
@@ -430,6 +438,7 @@ app.on('ready', () => {
     });
     ipcMain.on('refreshProject', async (event, record) => {
         let { targetFilePath, ownerID, version } = record;
+
         // 1 load secret
         let projects = [];
         try {
@@ -453,11 +462,18 @@ app.on('ready', () => {
             win.webContents.send('resultRefresh', 'Project not found, which is kinda odd');
             return;
         }
+
         // 2 load existing data, we need the client ID
+        // and version
         try {
             let currentManifest = fs.readFileSync(targetFilePath);
             currentManifest = JSON.parse(currentManifest);
             foundProject.extension_id = currentManifest.manifest.id;
+            foundProject.version = currentManifest.manifest.version;
+
+            if (!version || version == '') {
+                version = foundProject.version;
+            }
 
             console.log('We got', foundProject);
             // 3 go refresh
@@ -469,8 +485,18 @@ app.on('ready', () => {
             });
 
             // and update and save the file
-            currentManifest.maifest = manifestFromExtension(theExtension);
+            currentManifest.manifest = manifestFromExtension(theExtension);
+
+            // all done and write the file
+            // write the manifest file to disk
+            fs.writeFileSync(
+                targetFilePath,
+                JSON.stringify(currentManifest, null, 4)
+            );
+
+            win.webContents.send('resultRefresh', `Manifest Refreshed! (Re)Open the Developer Rig!`);
         } catch (e) {
+            console.log(e);
             win.webContents.send('resultRefresh', `Something went very wrongTM: ${e.message}`);
             return;
         }
