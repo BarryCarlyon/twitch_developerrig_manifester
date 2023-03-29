@@ -186,6 +186,35 @@ manifestrefresh.addEventListener('submit', async (e) => {
 
 
 
+reopen_project_select.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.electron.openFile();
+});
+window.electron.gotFile((data) => {
+    reopen_project.value = data.file;
+    reopen_extension_clientid.value = data.clientID;
+});
+reopendetails.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    let targetFilePath = reopen_project.value;
+    if (!targetFilePath || targetFilePath == '') {
+        reopen_result.textContent = 'You probably need to pick a Project to reopen first...';
+        return;
+    }
+
+    window.electron.reopenProject({
+        project: reopen_project.value,
+        ownerID: reopen_owner_id.value,
+        secret: reopen_extension_secret.value
+    });
+});
+window.electron.resultReopen((data) => {
+    console.log('resultReopen', data);
+    reopen_result.textContent = data;
+});
+
+
 
 
 
@@ -195,6 +224,7 @@ window.electron.rigLogin((data) => {
         let { id } = data;
         owner_id.value = id;
         refresh_owner_id.value = id;
+        reopen_owner_id.value = id;
     } catch (e) {
     }
 });
