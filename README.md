@@ -24,21 +24,18 @@ It comes with no warranties so if you break something it's your fault *If you do
 4. Login to Twitch in the Rig
 5. Close The Rig
 6. Open this program
-7. Fill in the fields
+7. Fill in the fields inder "Import a Project"
 8. Click "Attempt Create"
 9. Open the Rig
 
-You should now have your project.
+You should now have your project in the rig ready to work with.
 
 ## Existing Users
 
 1. Close the Rig
 2. Open this program
-3. Fill in the fields
-4. Click "Attempt Create"
-5. Open the Rig
-
-You should now have your new project along side your Existing projects.
+3. Run the required function you need populating fields if needed
+4. ReOpen the Rig
 
 ### Common Issues
 
