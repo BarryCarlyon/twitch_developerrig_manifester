@@ -1,6 +1,6 @@
 <img src="https://user-images.githubusercontent.com/20999/211199868-8236f9d1-bddd-4fca-9157-6fa7886949fc.png" width="100" align="right" />
 
-[![CodeQL](https://github.com/BarryCarlyon/twitch_extension_tools/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/BarryCarlyon/twitch_extension_tools/actions/workflows/codeql-analysis.yml)
+[![CodeQL](https://github.com/BarryCarlyon/twitch_developerrig_manifester/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/BarryCarlyon/twitch_developerrig_manifester/actions/workflows/codeql-analysis.yml)
 
 # What is this
 
@@ -15,6 +15,8 @@ It comes with no warranties so if you break something it's your fault *If you do
 - Reopen Project - Open a Project Manifest file and (re)add that project to the Rig for use
 
 # Quick Start Usage Instructions
+
+Read the [Blog Post](https://barrycarlyon.co.uk/wordpress/2023/04/04/the-twitch-extensions-developer-rig-is-dead/) or this quick start:
 
 ## New Users
 
