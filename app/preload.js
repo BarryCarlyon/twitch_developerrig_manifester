@@ -26,6 +26,12 @@ contextBridge.exposeInMainWorld('electron', {
     gotDirectory: (fn) => {
         ipcRenderer.on('gotDirectory', (event, ...args) => fn(...args));
     },
+    openFile: () => {
+        ipcRenderer.send('openFile');
+    },
+    gotFile: (fn) => {
+        ipcRenderer.on('gotFile', (event, ...args) => fn(...args));
+    },
 
     rigLogin: (fn) => {
         ipcRenderer.on('rigLogin', (event, ...args) => fn(...args));
@@ -49,5 +55,12 @@ contextBridge.exposeInMainWorld('electron', {
     },
     resultRefresh: (fn) => {
         ipcRenderer.on('resultRefresh', (event, ...args) => fn(...args));
+    },
+
+    reopenProject: (project) => {
+        ipcRenderer.send('reopenProject', project);
+    },
+    resultReopen: (fn) => {
+        ipcRenderer.on('resultReopen', (event, ...args) => fn(...args));
     },
 });

@@ -9,6 +9,7 @@
         <div id="navigation" class="btn-group">
             <div class="navigation_item btn btn-outline-primary" targets="import">Import A Project</div>
             <div class="navigation_item btn btn-outline-secondary" targets="refresh">Refresh Manifest</div>
+            <div class="navigation_item btn btn-outline-secondary" targets="existing">Reopen Project</div>
         </div>
         <div id="tab_items">
             <div id="import" class="tab_item">
@@ -97,7 +98,43 @@
                     </fieldset>
                 </form>
             </div>
-        </div>
+            <div id="existing"  class="tab_item d-none">
+                <p>If you closed a project in the rig. Then the Project definition file still exists (with views/etc). Use this to reopen that project file. This operation will not refresh the manifest</p>
+
+                <p class="alert alert-danger">Make sure to close the Developer Rig before using reopen a Project!</p>
+                <form action="" method="post" id="reopendetails">
+                    <fieldset>
+                        <legend>Project Settings</legend>
+                        <div class="input-group p-1">
+                            <label for="reopen_project" class="input-group-text">Project File</label>
+                            <input type="text" name="reopen_project" id="reopen_project" class="form-control" readonly />
+                            <input type="button" id="reopen_project_select" value="Select Project" class="btn btn-outline-secondary" />
+                        </div>
+
+                        <div class="input-group p-1">
+                            <label for="reopen_extension_clientid" class="input-group-text">Extension ClientID (from file)</label>
+                            <input type="text" name="reopen_extension_clientid" id="reopen_extension_clientid" class="form-control" readonly="readonly" />
+                        </div>
+                        <div class="input-group p-1">
+                            <label for="reopen__owner_id" class="input-group-text">Owner User ID</label>
+                            <input type="number" name="reopen_owner_id" id="reopen_owner_id" class="form-control" step="1" min="0" />
+                        </div>
+                        <div class="form-text">Your userID (15185913) not username (barrycarlyon)</div>
+
+                        <div class="input-group p-1">
+                            <label for="reopen_extension_secret" class="input-group-text">Extension Secret</label>
+                            <input type="password" name="reopen_extension_secret" id="reopen_extension_secret" class="form-control" />
+                        </div>
+                        <div class="form-text">NOT the API Secret The Extension Client Configuration Secret</div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="d-grid">
+                            <input type="submit" class="btn btn-outline-primary" value="Attempt Reopen" />
+                        </div>
+                        <div class="form-text" id="reopen_result"></div>
+                    </fieldset>
+                </form>
+            </div>
     </main>
 
     <div id="updater" class="btn btn-outline-primary">Check for Update</div>

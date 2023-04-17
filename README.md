@@ -1,6 +1,6 @@
 <img src="https://user-images.githubusercontent.com/20999/211199868-8236f9d1-bddd-4fca-9157-6fa7886949fc.png" width="100" align="right" />
 
-[![CodeQL](https://github.com/BarryCarlyon/twitch_extension_tools/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/BarryCarlyon/twitch_extension_tools/actions/workflows/codeql-analysis.yml)
+[![CodeQL](https://github.com/BarryCarlyon/twitch_developerrig_manifester/actions/workflows/codeql.yml/badge.svg)](https://github.com/BarryCarlyon/twitch_developerrig_manifester/actions/workflows/codeql.yml)
 
 # What is this
 
@@ -8,7 +8,15 @@ This Program lets you add a Project to the Deprecated [Twitch Developer Rig](htt
 
 It comes with no warranties so if you break something it's your fault *If you do so it's at your own risk*!
 
-# Usage Instructions
+# Functions
+
+- Import a Project - Create a Project Manifest file from a Developer Console Extension and add that project to Rig for use
+- Refresh Manifest - Update a Project Manifest file from a Developer Console Extension
+- Reopen Project - Open a Project Manifest file and (re)add that project to the Rig for use
+
+# Quick Start Usage Instructions
+
+Read the [Blog Post](https://barrycarlyon.co.uk/wordpress/2023/04/04/the-twitch-extensions-developer-rig-is-dead/) or this quick start:
 
 ## New Users
 
@@ -18,21 +26,22 @@ It comes with no warranties so if you break something it's your fault *If you do
 4. Login to Twitch in the Rig
 5. Close The Rig
 6. Open this program
-7. Fill in the fields
+7. Fill in the fields inder "Import a Project"
 8. Click "Attempt Create"
 9. Open the Rig
 
-You should now have your project.
+You should now have your project in the rig ready to work with.
 
 ## Existing Users
 
 1. Close the Rig
 2. Open this program
-3. Fill in the fields
-4. Click "Attempt Create"
-5. Open the Rig
+3. Run the required function you need populating fields if needed
+4. ReOpen the Rig
 
-You should now have your new project along side your Existing projects.
+### Common Issues
+
+- `Database not open` - you left the Twitch Developer Rig open, and the Manifester is locked out. Close the Twitch Developer Rig, optionally restart the manifester.
 
 ## Installation and Updates
 
@@ -70,12 +79,12 @@ Mac DMG/Manual install:
 - Uses GitHub for update delivery and code management
 - JWT tokens are generated _inside_ the App via [auth0/node-jsonwebtoken](https://github.com/auth0/node-jsonwebtoken), as apposed to "ClientSide" like [this example](https://barrycarlyon.github.io/twitch_misc/examples/extension_config/)
 - A number of [sindresorhus](https://github.com/sindresorhus/) Electron Modules.
-- User [ClassicLevel](https://github.com/Level/classic-level) to interact with the Developer Rig database/LocalStorage.
+- Uses [ClassicLevel](https://github.com/Level/classic-level) to interact with the Developer Rig database/LocalStorage.
 
 For a project to exist in the rig, two components need to exist.
 
 - The manifest/project file which is a local copy of your selected Extension Settings/integration slots/testing baseURI/etc
-- An entry in the Extension Developer Rig database/LocalStorage, which holds your extension secret (which the rig doesn't need any more), and a reference to the project so it can add it to the Developer Rig UI
+- An entry in the Extension Developer Rig database/LocalStorage, which holds your extension secret (which the rig doesn't need any more anyway really), and a file/location reference to the project file so it can add it to the Developer Rig UI
 
 Defined Extension views that you define are stored in the manifest/project file.
 

@@ -114,6 +114,21 @@ app.on('ready', () => {
             win.webContents.send('gotDirectory', result.filePaths[0]);
         }
     });
+    ipcMain.on('openFile', async () => {
+        const result = await dialog.showOpenDialog(win);
+        console.log(result.filePaths);
+        if (result.filePaths && result.filePaths.length == 1) {
+            try {
+                let data = JSON.parse(fs.readFileSync(result.filePaths[0]));
+                win.webContents.send('gotFile', {
+                    file: result.filePaths[0],
+                    clientID: data.manifest.id
+                });
+            } catch (e) {
+                win.webContents.send('resultReopen', `Something went very wrongTM: ${e.message}`);
+            }
+        }
+    });
 
     const jwt = require('jsonwebtoken');
     const fetch = require('electron-fetch').default;
@@ -223,7 +238,7 @@ app.on('ready', () => {
                 return reject(`Failed to get Extension: Missing Data`);
             }
             if (data.data.length != 1) {
-                return reject('resultCreate', `Failed to get Extension: Not one Result returned ${data.data.length}`);
+                return reject(`Failed to get Extension: Not one Result returned ${data.data.length}`);
             }
 
             let theExtension = data.data[0];
@@ -341,51 +356,68 @@ app.on('ready', () => {
 
         let { extension_secret } = record;
 
-        let database;
         try {
-            // next we need to go play with the rig
-            console.log('DBPath', databasePath);
-            database = new ClassicLevel(databasePath);
-            // open the database
-            await database.open();
-            // check for existing data
-            let existingData = [];
-            try {
-                console.log('Key:', finalKey);
-                existingData = await database.get(finalKey);
-                console.log(existingData);
-                if (existingData) {
-                    // remove control char
-                    existingData = existingData.substring(1);
-                    // and JSON parse
-                    existingData = JSON.parse(existingData);
-                    //console.log(existingData);
-                }
-            } catch (e) {
-                console.log(e);
-                existingData = []
-            }
-
-            existingData.push({
-                filePath: manifestFile,
-                name: extension_name,
-                secret: extension_secret
-            });
-
-            // and put it back
-            let newData = `${prefixLetter}${JSON.stringify(existingData)}`;
-            console.log(newData);
-            await database.put(finalKey, newData);
-
+            await addExtensionToRig(manifestFile, extension_name, extension_secret);
             win.webContents.send('resultCreate', `The Operation Completed. Open the Rig now!`);
         } catch (e) {
-            console.log('Caputring an error', e);
-            console.log('Bad Error', e.message);
             win.webContents.send('resultCreate', `Something went very wrongTM: ${e.message}`);
         }
-
-        closeDatabase(database);
     });
+
+    /*
+
+    */
+    async function addExtensionToRig(manifestFile, extension_name, extension_secret) {
+        return new Promise(async (resolve,reject) => {
+            let database;
+            try {
+                // next we need to go play with the rig
+                console.log('DBPath', databasePath);
+                database = new ClassicLevel(databasePath);
+                // open the database
+                await database.open();
+                // check for existing data
+                let existingData = [];
+                try {
+                    console.log('Key:', finalKey);
+                    existingData = await database.get(finalKey);
+                    console.log(existingData);
+                    if (existingData) {
+                        // remove control char
+                        existingData = existingData.substring(1);
+                        // and JSON parse
+                        existingData = JSON.parse(existingData);
+                        //console.log(existingData);
+                    }
+                } catch (e) {
+                    console.log(e);
+                    existingData = []
+                }
+    
+                existingData.push({
+                    filePath: manifestFile,
+                    name: extension_name,
+                    secret: extension_secret
+                });
+    
+                // and put it back
+                let newData = `${prefixLetter}${JSON.stringify(existingData)}`;
+                console.log(newData);
+                await database.put(finalKey, newData);
+    
+                closeDatabase(database);
+    
+                return resolve();
+            } catch (e) {
+                console.log('Caputring an error', e);
+                console.log('Bad Error', e.message);
+    
+                closeDatabase(database);
+    
+                return reject(e);
+            }
+        });
+    }
 
     /*
     Update/refresh functions
@@ -497,8 +529,37 @@ app.on('ready', () => {
             win.webContents.send('resultRefresh', `Manifest Refreshed! (Re)Open the Developer Rig!`);
         } catch (e) {
             console.log(e);
-            win.webContents.send('resultRefresh', `Something went very wrongTM: ${e.message}`);
+            if (e.message) {
+                win.webContents.send('resultRefresh', `Something went very wrongTM: ${e.message}`);
+            } else {
+                win.webContents.send('resultRefresh', `Something went very wrongTM: ${e}`);
+            }
             return;
+        }
+    });
+
+    ipcMain.on('reopenProject', async (event, record) => {
+        let { project, ownerID, secret } = record;
+
+        try {
+            let data = JSON.parse(fs.readFileSync(project));
+
+            let theExtension = await loadManifest({
+                extension_id:       data.manifest.id,
+                extension_secret:   secret,
+                owner_id:           ownerID,
+                extension_version:  data.manifest.version
+            });
+
+            // if we got here then the secret is good
+            await addExtensionToRig(project, data.name, secret);
+            win.webContents.send('resultReopen', `The Operation Completed. Open the Rig now!`);
+        } catch (e) {
+            if (e.message) {
+                win.webContents.send('resultReopen', `Something went very wrongTM: ${e.message}`);
+            } else {
+                win.webContents.send('resultReopen', `Something went very wrongTM: ${e}`);
+            }
         }
     });
 });
