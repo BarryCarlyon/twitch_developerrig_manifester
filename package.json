@@ -98,7 +98,7 @@
   "productName": "BarryCarlyonDeveloperRigManifester",
   "description": "BarryCarlyon Twitch Developer Rig Manifester. The Dev rig is dead but this will plug the hole",
   "author": "Barry Carlyon",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "main": "app/main.js",
   "keywords": [
     "desktop-app",

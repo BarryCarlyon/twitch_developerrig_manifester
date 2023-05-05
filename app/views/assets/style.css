@@ -41,6 +41,7 @@ a.website:before {
     display: inline-block;
 }
 
+/*
 #updater {
     position: absolute;
     top: 0px;
@@ -50,6 +51,7 @@ a.website:before {
 #updater.updating {
     position: fixed;
 }
+*/
 
 .loading,
 .accordion-item {
