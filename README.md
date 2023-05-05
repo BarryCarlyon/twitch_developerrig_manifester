@@ -25,19 +25,22 @@ Read the [Blog Post](https://barrycarlyon.co.uk/wordpress/2023/04/04/the-twitch-
 3. Open the Rig
 4. Login to Twitch in the Rig
 5. Close The Rig
-6. Open this program
-7. Fill in the fields inder "Import a Project"
-8. Click "Attempt Create"
-9. Open the Rig
+6. Create an Extension on the [Dev Console](https://dev.twitch.tv/console/extensions) if you didn't already
+7. Open this program
+8. Fill in the fields under "Import a Project" from the [Dev Console](https://dev.twitch.tv/console/extensions) for the Extension you want to import
+9. Click "Attempt Create"
+10. Open the Rig
 
-You should now have your project in the rig ready to work with.
+You should now have your project in the Rig ready to work with.
 
 ## Existing Users
 
 1. Close the Rig
 2. Open this program
 3. Run the required function you need populating fields if needed
-4. ReOpen the Rig
+4. Open the Rig
+
+Technically you can leave this Program open, as it opens/closes the Rig internal Database as needed.
 
 ### Common Issues
 
@@ -81,10 +84,10 @@ Mac DMG/Manual install:
 - A number of [sindresorhus](https://github.com/sindresorhus/) Electron Modules.
 - Uses [ClassicLevel](https://github.com/Level/classic-level) to interact with the Developer Rig database/LocalStorage.
 
-For a project to exist in the rig, two components need to exist.
+For a project to exist in the Rig, two components need to exist.
 
 - The manifest/project file which is a local copy of your selected Extension Settings/integration slots/testing baseURI/etc
-- An entry in the Extension Developer Rig database/LocalStorage, which holds your extension secret (which the rig doesn't need any more anyway really), and a file/location reference to the project file so it can add it to the Developer Rig UI
+- An entry in the Extension Developer Rig database/LocalStorage, which holds your extension secret (which the Rig doesn't need any more anyway really), and a file/location reference to the project file so it can add it to the Developer Rig UI
 
 Defined Extension views that you define are stored in the manifest/project file.
 
