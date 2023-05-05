@@ -1,21 +1,22 @@
-<html>
-<head>
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
     <title>BarryCarlyon Twitch Developer Rig Manfiester</title>
     <link rel="stylesheet" href="assets/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
     <main class="container-fluid">
-        <div id="navigation" class="btn-group">
+        <div id="navigation" class="btn-group d-flex">
             <div class="navigation_item btn btn-outline-primary" targets="import">Import A Project</div>
             <div class="navigation_item btn btn-outline-secondary" targets="refresh">Refresh Manifest</div>
-            <div class="navigation_item btn btn-outline-secondary" targets="existing">Reopen Project</div>
+            <div class="navigation_item btn btn-outline-secondary" targets="existing">Reopen a Project</div>
         </div>
         <div id="tab_items">
             <div id="import" class="tab_item">
+                <p class="alert alert-danger text-center">Make sure to close the Developer Rig before using Import a Project!</p>
+
                 <p>Import an already existing Twitch Extension to the Rig.</p>
 
-                <p class="alert alert-danger">Make sure to close the Developer Rig before using Import a Project!</p>
                 <form action="" method="post" id="manifestdetails">
                     <fieldset>
                         <legend>Project Settings</legend>
@@ -27,9 +28,9 @@
                         <div class="input-group p-1">
                             <label for="save_path" class="input-group-text">Project Location</label>
                             <input type="text" name="save_path" id="save_path" class="form-control" readonly />
-                            <input type="button" id="save_path_select" value="Select DIR" class="btn btn-outline-secondary" />
+                            <input type="button" id="save_path_select" value="Select Dir" class="btn btn-outline-secondary" />
                         </div>
-                        <div class="form-text">We'll write the manifest/project file here.</div>
+                        <div class="form-text">We'll write the manifest/project file here. And you can Reopen this file if you close the project in the rig.</div>
                     </fieldset>
                     <fieldset>
                         <legend>Extension Settings</legend>
@@ -42,13 +43,14 @@
                             <input type="password" name="extension_secret" id="extension_secret" class="form-control" />
                         </div>
                         <div class="form-text">NOT the API Secret The Extension Client Configuration Secret</div>
-            
+
                         <div class="input-group p-1">
                             <label for="owner_id" class="input-group-text">Owner User ID</label>
                             <input type="number" name="owner_id" id="owner_id" class="form-control" step="1" min="0" />
+                            <div class="input-group-text">PrePop from Rig Session</div>
                         </div>
                         <div class="form-text">Your userID (15185913) not username (barrycarlyon)</div>
-            
+
                         <div class="input-group p-1">
                             <label for="extension_version" class="input-group-text">Extension Version</label>
                             <input type="text" name="extension_version" id="extension_version" class="form-control" />
@@ -64,9 +66,9 @@
                 </form>
             </div>
             <div id="refresh"  class="tab_item d-none">
-                <p>Refresh the Extension manifest for a project already imported to the rig.</p>
+                <p class="alert alert-danger text-center">Make sure to close the Developer Rig before using Refresh Manifest!</p>
 
-                <p class="alert alert-danger">To use this tool you'll need to close the rig first.</p>
+                <p>Refresh the Extension manifest for a project already imported to the rig.</p>
 
                 <form action="" method="post" id="manifestrefresh">
                     <fieldset>
@@ -82,7 +84,7 @@
                             <input type="number" name="refresh_owner_id" id="refresh_owner_id" class="form-control" step="1" min="0" />
                         </div>
                         <div class="form-text">Your userID (15185913) not username (barrycarlyon)</div>
-            
+
                         <div class="input-group p-1">
                             <label for="refresh_extension_version" class="input-group-text">Extension Version</label>
                             <input type="text" name="refresh_extension_version" id="refresh_extension_version" class="form-control" />
@@ -99,9 +101,11 @@
                 </form>
             </div>
             <div id="existing"  class="tab_item d-none">
-                <p>If you closed a project in the rig. Then the Project definition file still exists (with views/etc). Use this to reopen that project file. This operation will not refresh the manifest</p>
+                <p class="alert alert-danger text-center">Make sure to close the Developer Rig before using Reopen a Project!</p>
 
-                <p class="alert alert-danger">Make sure to close the Developer Rig before using reopen a Project!</p>
+                <p>If you closed a project in the rig. Then the Project definition file still exists (with views/etc). Use this to reopen that project file.</p>
+                <p>This operation will not refresh the manifest, so after you Repen, you'll probably want to Refresh it too!</p>
+
                 <form action="" method="post" id="reopendetails">
                     <fieldset>
                         <legend>Project Settings</legend>
@@ -112,8 +116,9 @@
                         </div>
 
                         <div class="input-group p-1">
-                            <label for="reopen_extension_clientid" class="input-group-text">Extension ClientID (from file)</label>
+                            <label for="reopen_extension_clientid" class="input-group-text">Extension ClientID</label>
                             <input type="text" name="reopen_extension_clientid" id="reopen_extension_clientid" class="form-control" readonly="readonly" />
+                            <div class="input-group-text">(loads from file)</div>
                         </div>
                         <div class="input-group p-1">
                             <label for="reopen__owner_id" class="input-group-text">Owner User ID</label>

@@ -5,7 +5,6 @@ body {
 
 body {
     overflow-y: scroll;
-    background: #141414;
 }
 .monospace {
     font-family: monospace;
@@ -105,31 +104,10 @@ th .form-check {
     max-width: 90%;
 }
 
-.bg-dark {
-    background: #333333!important;
-}
-.bg-darker {
-    background: #292929!important;
-}
-
-pre.json {
-    border-radius: 5px;
-    padding: 5px;
-}
-.json > .string {
-    color: #feee85;
-}
-.json > .number {
-    color: #beaaff;
-}
-.json > .boolean {
-    color: #beaaff;
-}
-.json > .null {
-    color: #ffca5f;
-}
-.json > .key {
-    color: #fab4ff;
+label.input-group-text {
+    display: inline-block;
+    min-width: 33%;
+    text-align: right;
 }
 
 ::-webkit-scrollbar {
