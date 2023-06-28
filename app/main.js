@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, dialog, session  } = require('electron');
 const os = require('os');
 
 const fs = require('fs');
@@ -34,6 +34,15 @@ if (os.platform() == 'win32') {
 }
 
 app.on('ready', () => {
+    session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+        callback({
+            responseHeaders: {
+                ...details.responseHeaders,
+                'Content-Security-Policy': ['script-src \'self\'']
+            }
+        })
+    });
+
     // settings migration
     let options = {
         width: 600,
