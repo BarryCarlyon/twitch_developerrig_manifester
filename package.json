@@ -92,7 +92,7 @@
     "electron-fetch": "^1.9.1",
     "electron-store": "^8.1.0",
     "electron-updater": "^6.1.1",
-    "jsonwebtoken": "^9.0.0"
+    "jsonwebtoken": "^9.0.1"
   },
   "name": "barrycarlyontwitchdeveloperrigmanifester",
   "productName": "BarryCarlyonDeveloperRigManifester",
@@ -122,7 +122,7 @@
     "electron-builder-notarize": "^1.5.1"
   },
   "devDependencies": {
-    "electron": "^25.2.0",
+    "electron": "^25.3.0",
     "electron-builder": "^24.4.0"
   }
 }
