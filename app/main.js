@@ -213,7 +213,7 @@ app.on('ready', () => {
 
             // signature first
             const sigConfigPayload = {
-                "exp": Math.floor(new Date().getTime() / 1000) + 4,
+                "exp": Math.floor(new Date().getTime() / 1000) + 10,
                 "user_id": `${owner_id}`,
                 "role": "external",
             }
@@ -257,7 +257,7 @@ app.on('ready', () => {
                 for (let key in theExtension.views[view]) {
                     var parts = key.split(/_/g);
                     for(var i=1; i<parts.length; i++) {
-                        parts[i] = parts[i].substr(0,1).toUpperCase() + parts[i].substr(1,parts[i].length-1) 
+                        parts[i] = parts[i].substr(0,1).toUpperCase() + parts[i].substr(1,parts[i].length-1)
                     }
                     let newKey = parts.join('');
                     console.log('for', view, 'copy', key, 'to', newKey);
@@ -329,9 +329,9 @@ app.on('ready', () => {
     */
     ipcMain.on('attemptCreate', async (event, record) => {
         console.log('INPUT', record);
-    
+
         let { extension_name, save_path } = record;
-    
+
         let manifestFile = path.join(
             save_path,
             `${extension_name}.json`
@@ -402,27 +402,79 @@ app.on('ready', () => {
                     console.log(e);
                     existingData = []
                 }
-    
+
                 existingData.push({
                     filePath: manifestFile,
                     name: extension_name,
                     secret: extension_secret
                 });
-    
+
                 // and put it back
                 let newData = `${prefixLetter}${JSON.stringify(existingData)}`;
                 console.log(newData);
                 await database.put(finalKey, newData);
-    
+
                 closeDatabase(database);
-    
+
                 return resolve();
             } catch (e) {
                 console.log('Caputring an error', e);
                 console.log('Bad Error', e.message);
-    
+
                 closeDatabase(database);
-    
+
+                return reject(e);
+            }
+        });
+    }
+    async function reviseExtensionSecretToRig(manifestFile, extension_secret) {
+        return new Promise(async (resolve,reject) => {
+            let database;
+            try {
+                // next we need to go play with the rig
+                console.log('DBPath', databasePath);
+                database = new ClassicLevel(databasePath);
+                // open the database
+                await database.open();
+                // check for existing data
+                let existingData = [];
+                try {
+                    console.log('Key:', finalKey);
+                    existingData = await database.get(finalKey);
+                    console.log(existingData);
+                    if (existingData) {
+                        // remove control char
+                        existingData = existingData.substring(1);
+                        // and JSON parse
+                        existingData = JSON.parse(existingData);
+                        //console.log(existingData);
+
+                        // iterate
+                        for (var x=0;x<existingData.length;x++) {
+                            if (existingData[x].filePath == manifestFile) {
+                                existingData[x].secret = extension_secret
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.log(e);
+                    existingData = []
+                }
+
+                // and put it back
+                let newData = `${prefixLetter}${JSON.stringify(existingData)}`;
+                console.log(newData);
+                await database.put(finalKey, newData);
+
+                closeDatabase(database);
+
+                return resolve();
+            } catch (e) {
+                console.log('Caputring an error', e);
+                console.log('Bad Error', e.message);
+
+                closeDatabase(database);
+
                 return reject(e);
             }
         });
@@ -478,7 +530,7 @@ app.on('ready', () => {
         }
     });
     ipcMain.on('refreshProject', async (event, record) => {
-        let { targetFilePath, ownerID, version } = record;
+        let { targetFilePath, ownerID, version, new_secret } = record;
 
         // 1 load secret
         let projects = [];
@@ -488,6 +540,7 @@ app.on('ready', () => {
             win.webContents.send('resultRefresh', `Something went very wrongTM: ${e.message}`);
             return;
         }
+
         // find the project
         let foundProject = false;
         projects.forEach(project => {
@@ -502,6 +555,13 @@ app.on('ready', () => {
         if (foundProject === false) {
             win.webContents.send('resultRefresh', 'Project not found, which is kinda odd');
             return;
+        }
+
+        if (new_secret && new_secret.length > 0) {
+            console.log('Overrideing the secret')
+            foundProject.secret = new_secret;
+            // write new secret....
+            await reviseExtensionSecretToRig(targetFilePath, foundProject.secret);
         }
 
         // 2 load existing data, we need the client ID

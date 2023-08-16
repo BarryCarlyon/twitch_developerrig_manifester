@@ -179,7 +179,8 @@ manifestrefresh.addEventListener('submit', async (e) => {
     window.electron.refreshProject({
         targetFilePath,
         ownerID: refresh_owner_id.value,
-        version: refresh_extension_version.value
+        version: refresh_extension_version.value,
+        new_secret: refresh_extension_secret.value
     });
 });
 
