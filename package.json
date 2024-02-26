@@ -91,7 +91,7 @@
     "electron-context-menu": "^3.6.1",
     "electron-fetch": "^1.9.1",
     "electron-store": "^8.1.0",
-    "electron-updater": "^6.1.7",
+    "electron-updater": "^6.1.8",
     "jsonwebtoken": "^9.0.2"
   },
   "name": "barrycarlyontwitchdeveloperrigmanifester",
