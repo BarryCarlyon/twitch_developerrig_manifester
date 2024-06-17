@@ -90,7 +90,7 @@
     "classic-level": "^1.4.1",
     "electron-context-menu": "^3.6.1",
     "electron-fetch": "^1.9.1",
-    "electron-store": "^8.2.0",
+    "electron-store": "^10.0.0",
     "electron-updater": "^6.1.8",
     "jsonwebtoken": "^9.0.2"
   },
